@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* ========================
+   Base styles & CSS variables
+   ======================== */
+@theme {
+    /* Refined color mapping for a professional Gov look */
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+
+    /* Elegant typography */
+    --font-sans: "Inter", var(--font-sans);
+    --font-serif: "Lora", var(--font-serif);
+
+    --radius-lg: 0.75rem;
+    --radius-md: 0.5rem;
+}
+
+@layer base {
+    :root {
+        /* Elegant Navy & Ivory Palette */
+        --background: 210 20% 98%;    /* Very light grey-blue tint */
+        --foreground: 222 47% 11%;    /* Deep Navy text */
+
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+
+        /* The "Government Blue" */
+        --primary: 221 45% 18%;       /* Rich Navy */
+        --primary-foreground: 210 40% 98%;
+
+        /* The "Elegant Gold/Champagne" accent */
+        --accent: 35 30% 88%;
+        --accent-foreground: 221 45% 18%;
+
+        --secondary: 214 32% 91%;     /* Soft blue-gray for sections */
+        --secondary-foreground: 222 47% 11%;
+
+        --muted: 214 32% 91%;
+        --muted-foreground: 215 16% 47%;
+
+        --border: 214 32% 85%;
+        --input: 214 32% 85%;
+        --ring: 221 45% 18%;
+
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 222 47% 8%;
+        --foreground: 210 40% 98%;
+        --card: 222 47% 12%;
+        --card-foreground: 210 40% 98%;
+        --primary: 210 40% 98%;
+        --primary-foreground: 222 47% 11%;
+        --secondary: 217 32% 17%;
+        --secondary-foreground: 210 40% 98%;
+        --border: 217 32% 20%;
+    }
+}
+
+@layer base {
+    * {
+        border-color: hsl(var(--border));
+    }
+
+    body {
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11"; /* Better Inter readability */
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Professional Headings */
+    h1, h2, h3, h4 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+}
+
+@layer utilities {
+    /* Soft elevation for elegant cards */
+    .shadow-elegant {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
