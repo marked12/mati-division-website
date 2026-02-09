@@ -1,29 +1,38 @@
+"use client";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-    title: "Mati City Division | Official Portal",
-    description: "Government services and announcements for Mati City",
-};
 
 export default function RootLayout({
                                        children,
                                    }: {
     children: React.ReactNode;
 }) {
+    const pathname = usePathname();
+
+    // We create a list of "Auth Routes" where we want a clean screen
+    const authRoutes = ["/login", "/signup"];
+    const isAuthPage = authRoutes.includes(pathname);
+
     return (
         <html lang="en">
         <body className={inter.className}>
-        <Header />
-        {/* The Breadcrumbs will sit right under the Header on every page */}
-        <Breadcrumbs />
+        {/* If the current path is NOT /login or /signup,
+                   show the Header and Breadcrumbs
+                */}
+        {!isAuthPage && <Header />}
+        {!isAuthPage && <Breadcrumbs />}
+
         <main>{children}</main>
-        <Footer />
+
+        {/* Hide Footer on auth pages too */}
+        {!isAuthPage && <Footer />}
         </body>
         </html>
     );
