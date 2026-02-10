@@ -31,7 +31,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "This email is already registered." }, { status: 409 });
         }
 
-        console.error("Database Error:", error);
+        // console.error("Database Error:", error);
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }

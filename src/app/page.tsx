@@ -57,7 +57,7 @@ export default function Home() {
                                 {/* Image Section with a colored backdrop */}
                                 <div className="md:w-2/5 bg-primary relative min-h-[400px] flex items-center justify-center overflow-hidden">
                                     {/* Subtle Seal Background for the Portrait */}
-                                    <div className="absolute inset-0 opacity-10 scale-150 grayscale brightness-200 bg-[url('/seal-placeholder.png')] bg-center bg-no-repeat"></div>
+                                    <div className="absolute inset-0 opacity-10 scale-150 grayscale brightness-200 bg-center bg-no-repeat"></div>
 
                                     <div className="relative z-10 w-72 h-80 border-2 border-accent/50 rounded-xl overflow-hidden shadow-2xl rotate-2 group hover:rotate-0 transition-transform duration-500">
                                         <div className="absolute inset-0 bg-secondary/20 flex items-center justify-center text-white/40 text-[10px] font-black uppercase tracking-widest text-center px-6">

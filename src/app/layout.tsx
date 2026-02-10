@@ -1,38 +1,28 @@
-"use client";
-
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Breadcrumbs from "../components/Breadcrumbs";
-import "./globals.css";
+// app/layout.tsx
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
+import "./globals.css";
+import 'react-toastify/dist/ReactToastify.css';
+import { Providers } from "../components/Providers";
+import LayoutContent from "../components/LayoutContent"; // We will create this
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
-    const pathname = usePathname();
+export const metadata: Metadata = {
+    title: "Mati City Division Portal",
+    description: "Official portal for the Mati City Division",
+    icons: {
+        icon: "/favicon.ico",
+    },
+};
 
-    // We create a list of "Auth Routes" where we want a clean screen
-    const authRoutes = ["/login", "/signup"];
-    const isAuthPage = authRoutes.includes(pathname);
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-        <body className={inter.className}>
-        {/* If the current path is NOT /login or /signup,
-                   show the Header and Breadcrumbs
-                */}
-        {!isAuthPage && <Header />}
-        {!isAuthPage && <Breadcrumbs />}
-
-        <main>{children}</main>
-
-        {/* Hide Footer on auth pages too */}
-        {!isAuthPage && <Footer />}
+        <html lang="en" suppressHydrationWarning>
+        <body className={inter.className} suppressHydrationWarning>
+        <Providers>
+            <LayoutContent>{children}</LayoutContent>
+        </Providers>
         </body>
         </html>
     );
