@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, {useEffect, useState} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
@@ -7,26 +8,14 @@ import QuickLinkCard from '../components/QuickLinkCard';
 import { FileText, Award, Shield, Download, Users, Building } from 'lucide-react';
 
 // This acts as our "Mock Database" until we connect MySQL
-const announcements = [
-    {
-        title: "New Public Infrastructure Projects Announced",
-        date: "January 15, 2026",
-        excerpt: "The Mati City Division announces the commencement of several infrastructure development projects aimed at improving public facilities.",
-        href: "#"
-    },
-    {
-        title: "Disaster Preparedness Training Schedule",
-        date: "January 10, 2026",
-        excerpt: "Community disaster preparedness training sessions will be conducted across all barangays. Registration is now open.",
-        href: "#"
-    },
-    {
-        title: "Annual Budget Transparency Report Released",
-        date: "January 5, 2026",
-        excerpt: "The complete annual budget allocation and expenditure report is now available for public review.",
-        href: "#"
-    }
-];
+// Inside your Home Page component
+interface Announcement {
+    id: number;
+    title: string;
+    excerpt: string;
+    created_at: string;
+}
+
 
 const quickLinks = [
     { title: "Bid Opportunities", description: "View current procurement", href: "/bids-opportunities", icon: Award },
@@ -38,6 +27,35 @@ const quickLinks = [
 ];
 
 export default function Home() {
+    const [announcements, setAnnouncements] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                const res = await fetch('api/announcements');
+
+                // Check if the server returned an error (HTML)
+                if (!res.ok) {
+                    throw new Error(`Server returned status: ${res.status}`);
+                }
+
+                const contentType = res.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new TypeError("Oops, we didn't get JSON back!");
+                }
+
+                const data = await res.json();
+                setAnnouncements(data);
+            } catch (error) {
+                console.error("Fetch error details:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchAnnouncements();
+    }, []);
     return (
         <div className="min-h-screen bg-background">
 
@@ -119,9 +137,31 @@ export default function Home() {
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {announcements.map((announcement, index) => (
-                                <AnnouncementCard key={index} {...announcement} />
-                            ))}
+                            {isLoading ? (
+                                // Show 3 empty "loading" states while fetching
+                                [...Array(3)].map((_, i) => (
+                                    <div key={i} className="h-64 bg-secondary/20 animate-pulse rounded-xl" />
+                                ))
+                            ) : announcements.length > 0 ? (
+                                announcements.map((announcement: Announcement) => (
+                                    <AnnouncementCard
+                                        key={announcement.id}
+                                        id={announcement.id}
+                                        title={announcement.title}
+                                        excerpt={announcement.excerpt}
+                                        // Convert DB timestamp to a readable format: e.g., "February 10, 2026"
+                                        created_at={new Date(announcement.created_at).toLocaleDateString('en-US', {
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric'
+                                        })}
+                                    />
+                                ))
+                            ) : (
+                                <div className="col-span-full py-10 text-center border-2 border-dashed border-border rounded-xl">
+                                    <p className="text-muted-foreground">No recent announcements from Mati City.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </section>
