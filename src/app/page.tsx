@@ -131,7 +131,7 @@ export default function Home() {
                                 <h2 className="text-3xl font-bold text-foreground mb-2">Latest Announcements</h2>
                                 <p className="text-muted-foreground">Stay updated with the latest news from the Division.</p>
                             </div>
-                            <button className="hidden md:block text-primary font-semibold hover:underline">
+                            <button hidden className="hidden md:block text-primary font-semibold hover:underline">
                                 View All News →
                             </button>
                         </div>

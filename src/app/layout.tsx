@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Mati City Division Portal",
     description: "Official portal for the Mati City Division",
     icons: {
-        icon: "/favicon.ico",
+        icon: "/favicon.ico?v=1",
     },
 };
 

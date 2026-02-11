@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { ChevronDown, Menu, X, UserCircle, LogOut, Settings } from 'lucide-react';
 import Cookies from "js-cookie";
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const navigation = [
-    { name: 'Admin Dashboard', href: '/admin/dashboard', role: 'ADMIN' },
+    { name: 'Dashboard', href: '/admin/dashboard', role: 'ADMIN' },
     { name: 'Home', href: '/' },
     {
         name: 'About Us',
@@ -35,6 +36,17 @@ const navigation = [
             { name: 'Downloads', href: '/drrm/downloads' },
             { name: 'Resiliency Link', href: '/drrm/resilience-link' },
             { name: 'Reporting', href: '/drrm/reporting' },
+        ]
+    },
+    {
+        name: 'ICT Services',
+        href: '/ict',
+        children: [
+            { name: 'DepEd Email Request', href: '/ict/email-request' },
+            { name: 'Technical Assistance', href: '/ict/technical-assistance' },
+            { name: 'Information Systems', href: '/ict/systems' },
+            { name: 'Data Privacy', href: '/ict/data-privacy' },
+            { name: 'ICT Training & Resources', href: '/ict/resources' },
         ]
     },
     {
@@ -122,13 +134,20 @@ export default function Header() {
                 <div className="flex h-20 items-center justify-between gap-4">
 
                     {/* LOGO */}
-                    <div className="flex items-center gap-3 shrink-0">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground shadow-elegant font-serif text-xl font-bold">
-                            M
+                    <div className="flex items-center gap-0 shrink-0">
+                        <div className="relative w-13 h-10 flex items-center justify-center">
+                            <Image
+                                src="/brand/site-logo.png" // If it's in public/brand/logo.png, use that path instead
+                                alt="Mati City Logo"
+                                width={50}
+                                height={50}
+                                className="object-contain" // Keeps aspect ratio perfect
+                                priority // Ensures the logo loads immediately
+                            />
                         </div>
-                        <div className="hidden sm:flex flex-col">
-                            <span className="text-md font-bold leading-tight tracking-tight text-primary font-serif">Mati City</span>
-                            <span className="text-[10px] font-medium tracking-[0.1em] text-muted-foreground uppercase">Division Portal</span>
+                        <div className=" sm:flex flex-col">
+                            <span className="text-sm font-bold leading-tight tracking-tight text-primary font-serif pr-1">Mati City</span>
+                            <span className="text-[9px] font-medium tracking-[0.1em] text-muted-foreground uppercase">Division Portal</span>
                         </div>
                     </div>
 

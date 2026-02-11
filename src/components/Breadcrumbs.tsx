@@ -48,11 +48,17 @@ export default function Breadcrumbs() {
                         </Link>
                     </li>
 
+                    {/* ... inside the map function ... */}
                     {segments.map((segment, index) => {
                         const isLast = index === segments.length - 1;
+                        const currentHref = `/${segments.slice(0, index + 1).join('/')}`;
                         const parentLabel = routeMapping[segment];
 
-                        // Use dynamicTitle if we are on the last segment and it's available
+                        // --- NEW LOGIC HERE ---
+                        // Disable clicking if it's the 'admin' segment or if you want to disable
+                        // all parent segments that don't have a specific landing page.
+                        const isDisabled = segment.toLowerCase() === 'admin';
+
                         let displayTitle = segment.replace(/-/g, ' ');
                         if (isLast && dynamicTitle) {
                             displayTitle = dynamicTitle;
@@ -69,12 +75,16 @@ export default function Breadcrumbs() {
                                     </>
                                 )}
 
-                                {isLast ? (
-                                    <span className="text-primary font-black truncate max-w-[200px] sm:max-w-[450px]">
+                                {isLast || isDisabled ? (
+                                    /* Render as SPAN if it's the last item OR if it's disabled (like 'admin') */
+                                    <span className={`truncate max-w-[200px] sm:max-w-[450px] ${
+                                        isLast ? 'text-primary font-black' : 'text-muted-foreground font-bold cursor-default'
+                                    }`}>
                                         {displayTitle}
                                     </span>
                                 ) : (
-                                    <Link href={`/${segment}`} className="hover:text-primary transition-colors">
+                                    /* Otherwise, render as a clickable LINK */
+                                    <Link href={currentHref} className="hover:text-primary transition-colors">
                                         {displayTitle}
                                     </Link>
                                 )}
