@@ -135,7 +135,7 @@ export default function Header() {
 
                     {/* LOGO */}
                     <div className="flex items-center gap-0 shrink-0">
-                        <div className="relative w-13 h-10 flex items-center justify-center">
+                        <div className="relative w-10 h-10 mr-1 flex items-center justify-center">
                             <Image
                                 src="/brand/site-logo.png" // If it's in public/brand/logo.png, use that path instead
                                 alt="Mati City Logo"

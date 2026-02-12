@@ -58,6 +58,7 @@ const handler = NextAuth({
 
                 // SUCCESS: Set the session cookie for approved/active users
                 const sessionData = {
+                    id: dbUser.id,
                     firstName: dbUser.first_name,
                     lastName: dbUser.last_name,
                     email: dbUser.email,
@@ -67,7 +68,7 @@ const handler = NextAuth({
 
                 const cookieStore = await cookies();
                 cookieStore.set('user', JSON.stringify(sessionData), {
-                    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+                    expires: Date.now() + 3 * 24 * 60 * 60 * 1000,
                     path: '/',
                 });
 

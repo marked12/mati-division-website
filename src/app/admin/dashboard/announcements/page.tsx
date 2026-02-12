@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { toast } from 'react-toastify'; // Using Toastify as requested
+import {toast, ToastContainer} from 'react-toastify'; // Using Toastify as requested
 import Swal from 'sweetalert2';
 import {
     Plus, Edit, Archive, RefreshCw,
@@ -52,23 +52,34 @@ export default function AnnouncementsPage() {
 
     // --- Archive / Restore Handler ---
     const handleArchive = async (id: number, newStatus: number) => {
-        try {
-            const res = await fetch('/api/admin/announcements', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, status: newStatus }),
-            });
+        const isArchiving = newStatus === 1;
 
-            if (res.ok) {
-                const message = newStatus === 1 ? "Announcement archived" : "Announcement restored";
-                toast.success(message); // React Toastify
-                fetchAnnouncements();
-            } else {
+        // 1. Create the promise
+        const archivePromise = fetch('/api/admin/announcements', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, status: newStatus }),
+        }).then(async (res) => {
+            if (!res.ok) {
                 const data = await res.json();
-                toast.error(data.error || "Failed to update status");
+                throw new Error(data.error || "Failed to update status");
             }
+            return res;
+        });
+
+        // 2. Feed the promise to toast.promise
+        toast.promise(archivePromise, {
+            pending: isArchiving ? "Archiving..." : "Restoring...",
+            success: isArchiving ? "Announcement archived" : "Announcement restored",
+            error: "Failed to update status"
+        });
+
+        try {
+            await archivePromise;
+            // 3. Refresh data ONLY after the promise is fully settled
+            fetchAnnouncements();
         } catch (err) {
-            toast.error("Network error. Please try again.");
+            console.error("Archive Error:", err);
         }
     };
 
@@ -160,6 +171,8 @@ export default function AnnouncementsPage() {
 
     return (
         <div className="min-h-screen bg-background">
+            <ToastContainer/>
+
             {/* Header Component - Isolated Logic */}
             {/*announcement form*/}
             {isModalOpen && (

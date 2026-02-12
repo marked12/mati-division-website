@@ -24,7 +24,7 @@ export default function AwardPreviewPage() {
                         {/* LEFT SIDE: BACK BUTTON & TITLE */}
                         <div className="flex items-center gap-6">
                             <Link
-                                href="/bids-opportunities"
+                                href="/award-notices"
                                 className="p-2.5 border border-white/10 hover:border-accent/40 rounded-xl transition-all hover:bg-white/5"
                             >
                                 <ArrowLeft size={28} className="text-accent" />

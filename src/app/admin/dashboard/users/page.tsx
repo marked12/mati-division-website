@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Clock, Search, Loader2, CheckCircle2, Power, PowerOff } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import AdminHeader from "@/src/components/AdminHeader";
 import BackButton from "@/src/components/BackButton";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function UsersPage() {
     const router = useRouter();
@@ -36,23 +37,58 @@ export default function UsersPage() {
     // Handle Role/Status Updates
     const handleUpdate = async (userId: number, updates: { newRole?: string; newStatus?: number }) => {
         setIsUpdating(userId);
+
+        // 1. Determine the context-specific message
+        let pendingMsg = "Updating user...";
+        let successMsg = "User updated successfully!";
+
+        if (updates.newStatus !== undefined) {
+            const isEnabling = updates.newStatus === 1;
+            pendingMsg = isEnabling ? "Enabling account..." : "Disabling account...";
+            successMsg = isEnabling ? "Account has been disabled" : "Account has been Enabled";
+        } else if (updates.newRole) {
+            pendingMsg = `Changing role to ${updates.newRole}...`;
+            successMsg = `Role updated to ${updates.newRole}`;
+        }
+
         try {
-            const res = await fetch('/api/admin/users/update', {
+            // 2. Wrap the fetch in a toast promise
+            const updatePromise = fetch('/api/admin/users/update', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id: userId, ...updates})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId, ...updates })
+            }).then(async (res) => {
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error || "Update failed");
+                }
+                return res;
             });
 
-            if (res.ok) {
-                setUsers(prevUsers => prevUsers.map(u =>
-                    u.id === userId
-                        ? { ...u,
-                            role: updates.newRole ?? u.role,
-                            status: updates.newStatus !== undefined ? updates.newStatus : u.status
-                        }
-                        : u
-                ));
-            }
+            toast.promise(updatePromise, {
+                pending: pendingMsg,
+                success: successMsg,
+                error: {
+                    render({ data }: any) {
+                        return data.message || "Failed to update account";
+                    }
+                }
+            });
+
+            const res = await updatePromise;
+
+            // 3. Update local UI state
+            setUsers(prevUsers => prevUsers.map(u =>
+                u.id === userId
+                    ? { ...u,
+                        role: updates.newRole ?? u.role,
+                        status: updates.newStatus !== undefined ? updates.newStatus : u.status
+                    }
+                    : u
+            ));
+
+        } catch (error) {
+            console.error("User Update Error:", error);
         } finally {
             setIsUpdating(null);
         }
@@ -77,10 +113,11 @@ export default function UsersPage() {
     const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     const pendingCount = users.filter(u => u.role === 'PENDING').length;
 
-    if (isLoading) return <div className="p-8 text-center font-serif italic text-primary">Synchronizing Personnel...</div>;
+    // if (isLoading) return <div className="p-8 text-center font-serif italic text-primary">Synchronizing Personnel...</div>;
 
     return (
         <div className="min-h-screen bg-background">
+            <ToastContainer/>
 
         <div className="max-w-6xl mx-auto px-4 mt-10 pb-20">
             {/* KPI Section */}
@@ -141,6 +178,7 @@ export default function UsersPage() {
                                 <option value="GAD">GAD Staff</option>
                                 <option value="ICT">ICT Unit</option>
                                 <option value="WRITER">Writer</option>
+                                <option value="SUPPLY">Supply Staff</option>
 
                             </select>
                             {/* Custom Arrow Icon */}
@@ -211,6 +249,7 @@ export default function UsersPage() {
                                                 <option value="GAD">GAD Staff</option>
                                                 <option value="ICT">ICT Unit</option>
                                                 <option value="WRITER">Writer</option>
+                                                <option value="SUPPLY">Supply</option>
                                             </select>
                                         )}
                                     </td>

@@ -26,7 +26,7 @@ export default function OrgChartPage() {
 
                         {/* Level 1: SDS */}
                         <OrgChartNode
-                            name="Dr. Winnie E. Batoon"
+                            name="WINNIE E. BATOON, CESO V"
                             position="Schools Division Superintendent"
                             isLeader
                             hasBottomLine

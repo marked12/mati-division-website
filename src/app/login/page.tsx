@@ -80,7 +80,7 @@ export default function LoginPage() {
             if (response.ok) {
                 // 1. Save user data to Cookies (expires in 7 days)
                 // We stringify it so we can store the whole object
-                Cookies.set('user', JSON.stringify(data.user), { expires: 7 });
+                Cookies.set('user', JSON.stringify(data.user), { expires: 3 });
 
                 // 2. Alert and Redirect
                 toast.success(`Welcome back, ${data.user.firstName}!`, {
