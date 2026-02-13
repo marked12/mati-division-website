@@ -19,22 +19,19 @@ export default function Breadcrumbs() {
     const pathname = usePathname();
     const [dynamicTitle, setDynamicTitle] = useState<string | null>(null);
 
+    // Determine if we are currently in an Admin route
+    const isAdminPath = pathname.startsWith('/admin');
+
     useEffect(() => {
-        // Reset dynamic title whenever the URL changes
         setDynamicTitle(null);
-
-        // Listen for a custom event from the page to update the title
-        const handleUpdate = (e: any) => {
-            setDynamicTitle(e.detail);
-        };
-
+        const handleUpdate = (e: any) => setDynamicTitle(e.detail);
         window.addEventListener('update-breadcrumb-title', handleUpdate);
         return () => window.removeEventListener('update-breadcrumb-title', handleUpdate);
     }, [pathname]);
 
     if (pathname === '/') return null;
 
-    const segments = pathname.split('/').filter((item) => item !== '');
+    const segments = pathname.split('/').filter(Boolean);
 
     return (
         <nav className="bg-secondary/30 border-b border-border">
@@ -48,16 +45,12 @@ export default function Breadcrumbs() {
                         </Link>
                     </li>
 
-                    {/* ... inside the map function ... */}
                     {segments.map((segment, index) => {
                         const isLast = index === segments.length - 1;
                         const currentHref = `/${segments.slice(0, index + 1).join('/')}`;
-                        const parentLabel = routeMapping[segment];
 
-                        // --- NEW LOGIC HERE ---
-                        // Disable clicking if it's the 'admin' segment or if you want to disable
-                        // all parent segments that don't have a specific landing page.
-                        const isDisabled = segment.toLowerCase() === 'admin';
+                        // FIX: Only look for parent label if we are NOT in admin mode
+                        const parentLabel = !isAdminPath ? routeMapping[segment.toLowerCase()] : null;
 
                         let displayTitle = segment.replace(/-/g, ' ');
                         if (isLast && dynamicTitle) {
@@ -65,26 +58,26 @@ export default function Breadcrumbs() {
                         }
 
                         return (
-                            <li key={segment} className="flex items-center space-x-2">
-                                <ChevronRight size={12} className="text-border" />
+                            <li key={currentHref} className="flex items-center space-x-2">
+                                <ChevronRight size={12} className="text-border shrink-0" />
 
-                                {isLast && parentLabel && (
+                                {/* This will now only show for public routes like /personnel */}
+                                {parentLabel && (
                                     <>
-                                        <span className="opacity-60">{parentLabel}</span>
-                                        <ChevronRight size={12} className="text-border" />
+                                        <span className="opacity-60 whitespace-nowrap">{parentLabel}</span>
+                                        <ChevronRight size={12} className="text-border shrink-0" />
                                     </>
                                 )}
 
-                                {isLast || isDisabled ? (
-                                    /* Render as SPAN if it's the last item OR if it's disabled (like 'admin') */
-                                    <span className={`truncate max-w-[200px] sm:max-w-[450px] ${
-                                        isLast ? 'text-primary font-black' : 'text-muted-foreground font-bold cursor-default'
-                                    }`}>
+                                {isLast ? (
+                                    <span className="text-primary font-black truncate max-w-[150px] sm:max-w-[400px]">
                                         {displayTitle}
                                     </span>
                                 ) : (
-                                    /* Otherwise, render as a clickable LINK */
-                                    <Link href={currentHref} className="hover:text-primary transition-colors">
+                                    <Link
+                                        href={currentHref}
+                                        className="hover:text-primary transition-colors whitespace-nowrap"
+                                    >
                                         {displayTitle}
                                     </Link>
                                 )}

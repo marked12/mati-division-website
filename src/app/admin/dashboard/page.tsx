@@ -6,17 +6,24 @@ import {
     Megaphone,
     Activity,
     ArrowRight,
-    ShieldCheck, FileText
+    ShieldCheck, FileText, Contact
 } from 'lucide-react';
 
 export default function AdminDashboard() {
     const navigationCards = [
         {
-            title: "Personnel Directory",
+            title: "Accounts Directory",
             description: "Manage user access levels, approve pending registrations, and update employee roles.",
             icon: <Users size={28} />,
             href: "/admin/dashboard/users",
-            countLabel: "Total Personnel"
+            countLabel: "Total Accounts"
+        },
+        {
+            title: "Personnel Management",
+            description: "Maintain the 201 file records, service history, and official directory of all employees.",
+            icon: <Contact size={28} />, // or <FolderType size={28} />
+            href: "/admin/dashboard/personnel",
+            countLabel: "Total Employees"
         },
         {
             title: "Manage Announcements",
@@ -52,15 +59,15 @@ export default function AdminDashboard() {
             </div>
 
             <div className="max-w-6xl mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {navigationCards.map((card) => (
                         <Link
                             key={card.title}
                             href={card.href}
-                            className="group bg-white border border-border rounded-lg p-8 shadow-sm hover:shadow-md hover:border-accent transition-all flex flex-col h-full"
+                            className="group bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md hover:border-accent transition-all flex flex-col h-full"
                         >
                             {/* Icon & Title */}
-                            <div className="flex items-start justify-between mb-6">
+                            <div className="flex items-start justify-between mb-3">
                                 <div className="p-3 bg-secondary/10 text-primary rounded-lg group-hover:bg-accent group-hover:text-white transition-colors">
                                     {card.icon}
                                 </div>
@@ -77,12 +84,12 @@ export default function AdminDashboard() {
 
                             {/* Action Footer */}
                             <div className="pt-6 border-t border-border flex items-center justify-between">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                  Open Module
-                </span>
+                                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                                  Open Module
+                                </span>
                                 <span className="text-[10px] font-medium text-muted-foreground italic uppercase">
-                  {card.countLabel}
-                </span>
+                              {card.countLabel}
+                            </span>
                             </div>
                         </Link>
                     ))}

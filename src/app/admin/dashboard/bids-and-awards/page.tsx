@@ -62,7 +62,6 @@ export default function AdminBidsPage() {
     };
 
 
-
     useEffect(() => {
         fetchBids();
     }, []);
@@ -181,7 +180,7 @@ export default function AdminBidsPage() {
 
             // Reset state...
         } catch (error: any) {
-            toast.update(loadingToast, { render: error.message, type: "error", isLoading: false, autoClose: 3000 });
+            toast.update(loadingToast, {render: error.message, type: "error", isLoading: false, autoClose: 3000});
         }
     };
     const handleEdit = (bid: any) => {
@@ -208,7 +207,6 @@ export default function AdminBidsPage() {
         setPreviewUrl(bid.pdf_url);
         setIsModalOpen(true);
     };
-
 
 
     // Accept 'id' AND the 'newStatus' (0 or 1)
@@ -297,7 +295,6 @@ export default function AdminBidsPage() {
 
     return (
         <div className="min-h-screen bg-background pb-20">
-            <ToastContainer/>
 
             {/* Header Banner */}
 
@@ -352,8 +349,8 @@ export default function AdminBidsPage() {
                         Recent Postings
                     </h3>
                     <span className="text-[10px] text-slate-400 font-medium">
-            Total Records: {Array.isArray(bids) ? bids.length : 0}
-        </span>
+                        Total Records: {Array.isArray(bids) ? bids.length : 0}
+                    </span>
                 </div>
 
                 <div className="bg-white border border-border rounded-lg overflow-hidden shadow-sm">
@@ -409,7 +406,9 @@ export default function AdminBidsPage() {
                         <tr className="bg-slate-50 border-b border-border">
                             <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground">Title</th>
                             <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground">Category</th>
-                            <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground">Publish Date</th>
+                            <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground">Publish
+                                Date
+                            </th>
                             <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground text-center">Author</th>
                             <th className="px-6 py-3 text-[10px] font-black uppercase tracking-wider text-muted-foreground text-right">Actions</th>
                         </tr>
@@ -420,7 +419,8 @@ export default function AdminBidsPage() {
                                 <td colSpan={5} className="py-20 text-center">
                                     <div className="flex flex-col items-center opacity-50">
                                         <div className="animate-spin mb-2"><FileText size={20}/></div>
-                                        <p className="text-[10px] font-black uppercase tracking-widest">Fetching Database...</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest">Fetching
+                                            Database...</p>
                                     </div>
                                 </td>
                             </tr>
@@ -434,13 +434,14 @@ export default function AdminBidsPage() {
                                                 <FileText size={18}/>
                                             </div>
                                             <div className="flex flex-col">
-                            <span className="text-sm font-serif font-bold text-primary leading-tight line-clamp-1">
-                                {bid.title}
-                            </span>
+                                                <span className="text-sm font-serif font-bold text-primary leading-tight line-clamp-1">
+                                                    {bid.title}
+                                                </span>
                                                 {bid.status === 1 && (
-                                                    <span className="w-fit text-[7px] bg-slate-200 text-slate-500 px-1 rounded uppercase font-bold mt-1">
-                                    Archived
-                                </span>
+                                                    <span
+                                                        className="w-fit text-[7px] bg-slate-200 text-slate-500 px-1 rounded uppercase font-bold mt-1">
+                                                        Archived
+                                                    </span>
                                                 )}
                                             </div>
                                         </div>
@@ -448,39 +449,42 @@ export default function AdminBidsPage() {
 
                                     {/* Category Column (NEW) */}
                                     <td className="px-6 py-4">
-                    <span className="text-[9px] font-black text-accent border border-accent/20 px-2 py-0.5 rounded-full uppercase tracking-tighter bg-accent/5">
-                        {bid.category}
-                    </span>
+                                        <span
+                                            className="text-[9px] font-black text-accent border border-accent/20 px-2 py-0.5 rounded-full uppercase tracking-tighter bg-accent/5">
+                                            {bid.category}
+                                        </span>
                                     </td>
 
                                     {/* Date Column */}
                                     <td className="px-6 py-4">
-                  <span className="text-[11px] text-muted-foreground font-medium">
-    {(() => {
-        // Create the date object
-        const d = new Date(bid.publish_date);
+                                      <span className="text-[11px] text-muted-foreground font-medium">
+                                            {(() => {
+                                                // Create the date object
+                                                const d = new Date(bid.publish_date);
 
-        // Use local methods instead of UTC
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const month = monthNames[d.getMonth()];
-        const day = d.getDate();
-        const year = d.getFullYear();
+                                                // Use local methods instead of UTC
+                                                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                                const month = monthNames[d.getMonth()];
+                                                const day = d.getDate();
+                                                const year = d.getFullYear();
 
-        return `${month} ${day}, ${year}`;
-    })()}
-</span>
+                                                return `${month} ${day}, ${year}`;
+                                            })()}
+                                        </span>
                                     </td>
 
                                     {/* Author Column */}
                                     <td className="px-6 py-4 text-center">
                                         <div className="inline-flex flex-col items-center">
-                                            <span className="text-[11px] text-primary font-bold">{bid.authorName || 'N/A'}</span>
+                                            <span
+                                                className="text-[11px] text-primary font-bold">{bid.authorName || 'N/A'}</span>
                                         </div>
                                     </td>
 
                                     {/* Actions Column */}
                                     <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                                        <div
+                                            className="flex justify-end items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
 
                                             {/* Edit Button */}
                                             <div className="flex items-center gap-1">
@@ -516,7 +520,7 @@ export default function AdminBidsPage() {
                             <tr>
                                 <td colSpan={5} className="py-20 text-center">
                                     <div className="flex flex-col items-center justify-center space-y-2 opacity-40">
-                                        <Search size={32} className="text-slate-300" />
+                                        <Search size={32} className="text-slate-300"/>
                                         <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">
                                             No {filterStatus} notices found
                                         </p>
@@ -534,15 +538,14 @@ export default function AdminBidsPage() {
                         )}
                         </tbody>
                     </table>
+                    {/*pagination controls*/}
                     {!loading && filteredBids.length > 0 && (
-                        <div className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border bg-slate-50/30">
+                        <div
+                            className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border bg-slate-50/30">
                             {/* Result Info */}
-                            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
-                                Showing <span className="text-primary font-bold">{indexOfFirstBid + 1}</span> to{" "}
-                                <span className="text-primary font-bold">
-                {Math.min(indexOfLastBid, filteredBids.length)}
-            </span>{" "}
-                                of <span className="text-primary font-bold">{filteredBids.length}</span> notices
+
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                                Showing {indexOfFirstBid + 1} to {Math.min(indexOfLastBid, filteredBids.length)} of {filteredBids.length}
                             </p>
 
                             {/* Controls */}
@@ -587,7 +590,8 @@ export default function AdminBidsPage() {
             {/* --- MODAL --- */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white w-full max-w-5xl h-[85vh] overflow-hidden rounded-lg shadow-2xl flex flex-col border border-border">
+                    <div
+                        className="bg-white w-full max-w-5xl h-[85vh] overflow-hidden rounded-lg shadow-2xl flex flex-col border border-border">
 
                         {/* Dynamic Header */}
                         <div className="p-4 border-b flex justify-between items-center bg-slate-50/50">
@@ -604,9 +608,11 @@ export default function AdminBidsPage() {
 
                         <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
                             {/* Left Side: Form */}
-                            <form onSubmit={handleSave} className="w-full md:w-2/5 p-6 border-r overflow-y-auto space-y-5 bg-slate-50/50">
+                            <form onSubmit={handleSave}
+                                  className="w-full md:w-2/5 p-6 border-r overflow-y-auto space-y-5 bg-slate-50/50">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
+                                    <label
+                                        className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
                                         Project Description
                                     </label>
                                     <textarea
@@ -622,7 +628,8 @@ export default function AdminBidsPage() {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
+                                        <label
+                                            className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
                                             Publish Date
                                         </label>
                                         <input
@@ -633,7 +640,8 @@ export default function AdminBidsPage() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
+                                        <label
+                                            className="text-[10px] font-black uppercase tracking-widest text-muted-foreground block mb-2 text-primary">
                                             Classification
                                         </label>
                                         <select
@@ -652,16 +660,19 @@ export default function AdminBidsPage() {
                                 <div className="relative group">
                                     <input type="file" accept=".pdf" onChange={handleFileChange}
                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                                    <div className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center transition-all ${selectedFile ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 group-hover:border-accent bg-white'}`}>
+                                    <div
+                                        className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center transition-all ${selectedFile ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 group-hover:border-accent bg-white'}`}>
                                         {selectedFile ? (
                                             <>
                                                 <FileCheck size={28} className="text-emerald-600 mb-2"/>
-                                                <span className="text-[10px] font-bold text-emerald-800 text-center">{selectedFile.name}</span>
+                                                <span
+                                                    className="text-[10px] font-bold text-emerald-800 text-center">{selectedFile.name}</span>
                                             </>
                                         ) : (
                                             <>
                                                 <UploadCloud size={28} className="text-slate-400 mb-2"/>
-                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">
+                                                <span
+                                                    className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">
                                         {editingId ? 'Change PDF Opportunity' : 'Attach PDF Opportunity'}
                                     </span>
                                             </>
@@ -677,10 +688,12 @@ export default function AdminBidsPage() {
                             </form>
 
                             {/* Right Side: Preview */}
-                            <div className="hidden md:flex flex-1 bg-slate-100 relative items-center justify-center border-l border-border">
+                            <div
+                                className="hidden md:flex flex-1 bg-slate-100 relative items-center justify-center border-l border-border">
                                 {previewUrl ? (
                                     <div className="w-full h-full p-4">
-                                        <div className="w-full h-full bg-white shadow-2xl rounded-sm overflow-hidden border border-slate-300">
+                                        <div
+                                            className="w-full h-full bg-white shadow-2xl rounded-sm overflow-hidden border border-slate-300">
                                             <embed
                                                 src={`${previewUrl}#toolbar=1&navpanes=0&view=FitH`}
                                                 type="application/pdf"

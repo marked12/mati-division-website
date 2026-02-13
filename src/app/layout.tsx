@@ -2,9 +2,9 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import 'react-toastify/dist/ReactToastify.css';
 import { Providers } from "../components/Providers";
-import LayoutContent from "../components/LayoutContent"; // We will create this
+import LayoutContent from "../components/LayoutContent";
+import {ToastContainer} from "react-toastify"; // We will create this
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en" suppressHydrationWarning>
         <body className={inter.className} suppressHydrationWarning>
         <Providers>
+            <ToastContainer />
+
             <LayoutContent>{children}</LayoutContent>
         </Providers>
         </body>

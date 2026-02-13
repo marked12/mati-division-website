@@ -171,7 +171,6 @@ export default function AnnouncementsPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <ToastContainer/>
 
             {/* Header Component - Isolated Logic */}
             {/*announcement form*/}

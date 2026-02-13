@@ -2,12 +2,29 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Menu, X, UserCircle, LogOut, Settings } from 'lucide-react';
+import {ChevronDown, Menu, X, UserCircle, LogOut, Settings, ChevronRight} from 'lucide-react';
 import Cookies from "js-cookie";
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
-const navigation = [
+interface SubChildItem {
+    name: string;
+    href: string;
+}
+
+interface ChildItem {
+    name: string;
+    href: string;
+    subChildren?: SubChildItem[]; // The '?' means it is optional
+}
+
+interface NavItem {
+    name: string;
+    href: string;
+    role?: string;
+    children?: ChildItem[]; // Also optional
+}
+const navigation: NavItem[] = [
     { name: 'Dashboard', href: '/admin/dashboard', role: 'ADMIN' },
     { name: 'Home', href: '/' },
     {
@@ -21,41 +38,56 @@ const navigation = [
         ]
     },
     {
-        name: 'Bids & Awards',
-        href: '/bids-awards',
+        name: 'Procurement', // Grouping Bids & Awards
+        href: '#',
         children: [
             { name: 'Bid Opportunities', href: '/bids-opportunities' },
             { name: 'Award Notices', href: '/award-notices' }
         ]
     },
     {
-        name: 'DRRM',
-        href: '/drrm',
+        name: 'Resources', // THE MASTER TAB
+        href: '#',
         children: [
-            { name: 'Updates & Activities', href: '/drrm/updates-activities' },
-            { name: 'Downloads', href: '/drrm/downloads' },
-            { name: 'Resiliency Link', href: '/drrm/resilience-link' },
-            { name: 'Reporting', href: '/drrm/reporting' },
-        ]
-    },
-    {
-        name: 'ICT Services',
-        href: '/ict',
-        children: [
-            { name: 'DepEd Email Request', href: '/ict/email-request' },
-            { name: 'Technical Assistance', href: '/ict/technical-assistance' },
-            { name: 'Information Systems', href: '/ict/systems' },
-            { name: 'Data Privacy', href: '/ict/data-privacy' },
-            { name: 'ICT Training & Resources', href: '/ict/resources' },
-        ]
-    },
-    {
-        name: 'Downloads',
-        href: '/downloads',
-        children: [
-            { name: 'Division Memos', href: '/downloads/division-memos' },
-            { name: 'Division Order', href: '/downloads/division-order' },
-            { name: 'Recipient', href: '/downloads/recipient' }
+            {
+                name: 'ICT Services',
+                href: '/ict',
+                subChildren: [
+                    { name: 'DepEd Email Request', href: '/ict/email-request' },
+                    { name: 'Technical Assistance', href: '/ict/technical-assistance' },
+                    { name: 'Information Systems', href: '/ict/systems' },
+                    { name: 'Data Privacy', href: '/ict/data-privacy' },
+                    { name: 'ICT Training & Resources', href: '/ict/resources' },
+                ]
+            },
+            {
+                name: 'Supply Unit',
+                href: '/supply',
+                subChildren: [
+                    { name: 'Inventory Updates', href: '/supply/inventory' },
+                    { name: 'Procurement Requests', href: '/supply/procurement' },
+                    { name: 'Asset Tracking', href: '/supply/assets' },
+                ]
+            },
+            {
+                name: 'DRRM',
+                href: '/drrm',
+                subChildren: [
+                    { name: 'Updates & Activities', href: '/drrm/updates-activities' },
+                    { name: 'Downloads', href: '/drrm/downloads' },
+                    { name: 'Resiliency Link', href: '/drrm/resilience-link' },
+                    { name: 'Reporting', href: '/drrm/reporting' },
+                ]
+            },
+            {
+                name: 'Downloads',
+                href: '/downloads',
+                subChildren: [
+                    { name: 'Division Memos', href: '/downloads/division-memos' },
+                    { name: 'Division Order', href: '/downloads/division-order' },
+                    { name: 'Recipient', href: '/downloads/recipient' }
+                ]
+            },
         ]
     },
     { name: 'Contact', href: '/contact' }
@@ -137,22 +169,22 @@ export default function Header() {
                     <div className="flex items-center gap-0 shrink-0">
                         <div className="relative w-10 h-10 mr-1 flex items-center justify-center">
                             <Image
-                                src="/brand/site-logo.png" // If it's in public/brand/logo.png, use that path instead
+                                src="/brand/site-logo.png"
                                 alt="Mati City Logo"
                                 width={50}
                                 height={50}
-                                className="object-contain" // Keeps aspect ratio perfect
-                                priority // Ensures the logo loads immediately
+                                className="object-contain"
+                                priority
                             />
                         </div>
-                        <div className=" sm:flex flex-col">
+                        <div className="sm:flex flex-col">
                             <span className="text-sm font-bold leading-tight tracking-tight text-primary font-serif pr-1">Mati City</span>
                             <span className="text-[9px] font-medium tracking-[0.1em] text-muted-foreground uppercase">Division Portal</span>
                         </div>
                     </div>
 
                     {/* DESKTOP NAVIGATION */}
-                    <nav className="hidden lg:flex items-center justify-center flex-1">
+                    <nav className="hidden lg:flex items-center justify-center flex-1 h-full">
                         {filteredNavigation.map((item) => (
                             <div key={item.name} className="relative group h-full">
                                 {item.children ? (
@@ -166,13 +198,49 @@ export default function Header() {
                                     </Link>
                                 )}
 
+                                {/* LEVEL 1 DROPDOWN */}
                                 {item.children && (
-                                    <div className="absolute left-0 top-[75%] hidden group-hover:block w-52 animate-fade-in pt-4">
-                                        <div className="bg-card border border-border rounded-lg shadow-xl overflow-hidden py-1">
+                                    <div className="absolute left-0 top-[70%] hidden group-hover:block w-52 animate-fade-in pt-4 z-50">
+                                        {/* REMOVED overflow-hidden here so Level 2 can show */}
+                                        <div className="bg-card border border-border rounded-lg shadow-xl py-1">
                                             {item.children.map((child) => (
-                                                <Link key={child.name} href={child.href} className="block px-4 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-primary transition-colors">
-                                                    {child.name}
-                                                </Link>
+                                                <div key={child.name} className="relative group/submenu">
+                                                    {/* Logic: If it has subChildren, href is # */}
+                                                    <Link
+                                                        href={child.subChildren ? "#" : child.href}
+                                                        className="flex items-center justify-between px-4 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-primary transition-colors cursor-pointer"
+                                                    >
+                                                        <span>{child.name}</span>
+                                                        {child.subChildren && <ChevronRight size={12} className="opacity-50" />}
+                                                    </Link>
+
+                                                    {/* LEVEL 2: CASCADE (Drop-right) */}
+                                                    {child.subChildren && (
+                                                        <div className="absolute left-full top-[-4px] hidden group-hover/submenu:block w-64 pl-1 animate-fade-in z-[100]">
+                                                            <div className="bg-card border border-border rounded-lg shadow-2xl py-1">
+                                                                {/* Sub-menu Header */}
+                                                                <div className="px-4 py-1.5 border-b border-border bg-secondary/20 mb-1">
+                                                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+                                                                {child.name} Options
+                                                            </span>
+                                                                </div>
+
+                                                                {/* Sub-menu Links */}
+                                                                <div className="flex flex-col">
+                                                                    {child.subChildren.map((sub) => (
+                                                                        <Link
+                                                                            key={sub.name}
+                                                                            href={sub.href}
+                                                                            className="block px-4 py-2 text-[12px] text-muted-foreground hover:bg-secondary hover:text-primary transition-colors whitespace-nowrap"
+                                                                        >
+                                                                            {sub.name}
+                                                                        </Link>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
@@ -193,7 +261,7 @@ export default function Header() {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setIsUserMenuOpen(!isUserMenuOpen);
-                                                setIsSidebarOpen(false); // Close sidebar if profile clicked
+                                                setIsSidebarOpen(false);
                                             }}
                                             className="flex items-center gap-2 p-1.5 rounded-full hover:bg-secondary transition-all relative z-10"
                                         >
@@ -206,7 +274,6 @@ export default function Header() {
                                             </div>
                                         </button>
 
-                                        {/* USER DROPDOWN (Click-based for Mobile/Desktop) */}
                                         {isUserMenuOpen && (
                                             <div className="absolute right-0 top-full w-48 animate-fade-in z-[60] pt-2">
                                                 <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
@@ -237,13 +304,12 @@ export default function Header() {
                             </>
                         )}
 
-                        {/* HAMBURGER BUTTON */}
                         <button
                             className="lg:hidden p-2 text-primary hover:bg-secondary rounded-lg transition-colors"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsSidebarOpen(!isSidebarOpen);
-                                setIsUserMenuOpen(false); // Close user menu if sidebar clicked
+                                setIsUserMenuOpen(false);
                             }}
                         >
                             {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
@@ -262,9 +328,29 @@ export default function Header() {
                                     <div className="font-bold text-primary text-sm px-2 py-1">{item.name}</div>
                                     <div className="pl-4 border-l border-accent mt-2 flex flex-col gap-2">
                                         {item.children.map((child) => (
-                                            <Link key={child.name} href={child.href} className="text-sm text-muted-foreground py-2 px-2 hover:bg-secondary rounded-md" onClick={() => setIsSidebarOpen(false)}>
-                                                {child.name}
-                                            </Link>
+                                            <div key={child.name}>
+                                                <Link
+                                                    href={child.subChildren ? "#" : child.href}
+                                                    className="text-sm text-muted-foreground py-2 px-2 hover:bg-secondary rounded-md block"
+                                                    onClick={() => !child.subChildren && setIsSidebarOpen(false)}
+                                                >
+                                                    {child.name}
+                                                </Link>
+                                                {child.subChildren && (
+                                                    <div className="ml-4 border-l border-border pl-4 flex flex-col gap-1 my-1">
+                                                        {child.subChildren.map((sub) => (
+                                                            <Link
+                                                                key={sub.name}
+                                                                href={sub.href}
+                                                                className="text-xs text-muted-foreground/70 py-1.5 hover:text-primary"
+                                                                onClick={() => setIsSidebarOpen(false)}
+                                                            >
+                                                                • {sub.name}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
                                         ))}
                                     </div>
                                 </>
