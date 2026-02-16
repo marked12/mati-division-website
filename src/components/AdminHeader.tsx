@@ -13,6 +13,8 @@ export default function AdminHeader({ activePage }: AdminHeaderProps) {
         LOGS: "System Activity Logs"
     };
 
+
+
     return (
         <div className="bg-primary pt-16 text-primary-foreground border-b-4 border-accent">
             <div className="max-w-6xl mx-auto px-4">

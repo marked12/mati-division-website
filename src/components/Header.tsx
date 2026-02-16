@@ -55,8 +55,6 @@ const navigation: NavItem[] = [
                 subChildren: [
                     { name: 'DepEd Email Request', href: '/ict/email-request' },
                     { name: 'Technical Assistance', href: '/ict/technical-assistance' },
-                    { name: 'Information Systems', href: '/ict/systems' },
-                    { name: 'Data Privacy', href: '/ict/data-privacy' },
                     { name: 'ICT Training & Resources', href: '/ict/resources' },
                 ]
             },
@@ -66,7 +64,7 @@ const navigation: NavItem[] = [
                 subChildren: [
                     { name: 'Inventory Updates', href: '/supply/inventory' },
                     { name: 'Procurement Requests', href: '/supply/procurement' },
-                    { name: 'Asset Tracking', href: '/supply/assets' },
+                    { name: 'Asset Tracking', href: '/supply/tracking' },
                 ]
             },
             {
@@ -216,7 +214,7 @@ export default function Header() {
 
                                                     {/* LEVEL 2: CASCADE (Drop-right) */}
                                                     {child.subChildren && (
-                                                        <div className="absolute left-full top-[-4px] hidden group-hover/submenu:block w-64 pl-1 animate-fade-in z-[100]">
+                                                        <div className="absolute left-full top-[-4px] hidden group-hover/submenu:block w-64 pl-1  z-[100]">
                                                             <div className="bg-card border border-border rounded-lg shadow-2xl py-1">
                                                                 {/* Sub-menu Header */}
                                                                 <div className="px-4 py-1.5 border-b border-border bg-secondary/20 mb-1">

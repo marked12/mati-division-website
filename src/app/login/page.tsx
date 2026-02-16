@@ -90,7 +90,7 @@ export default function LoginPage() {
                 // 3. Use window.location.href for the initial login redirect
                 // to force a clean server-side reload of the Header
                 setTimeout(() => {
-                    window.location.href = "/";
+                    window.location.href = "/admin/dashboard";
                 }, 1500);
             } else {
                 // Error Toast

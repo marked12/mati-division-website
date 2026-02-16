@@ -289,7 +289,7 @@ export default function AnnouncementsPage() {
                 </div>
             )}
 
-            <div className="max-w-6xl mx-auto px-4 mt-10 pb-20">
+            <div className="">
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
 
                     {/* Top Stats/Action Bar */}

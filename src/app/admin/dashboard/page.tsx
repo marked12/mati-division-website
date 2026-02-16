@@ -6,7 +6,7 @@ import {
     Megaphone,
     Activity,
     ArrowRight,
-    ShieldCheck, FileText, Contact
+    ShieldCheck, FileText, Contact, Monitor
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -38,6 +38,14 @@ export default function AdminDashboard() {
             icon: <FileText size={28} />, // You can change this to a 'FileText' or 'Gavel' icon if preferred
             href: "/admin/dashboard/bids-and-awards",
             countLabel: "Open Bids"
+        },
+        {
+            title: "ICT Services",
+            description: "Manage technical support requests, network infrastructure, and digital system maintenance.",
+            icon: <Monitor size={28} />,
+            href: "/admin/dashboard/ict-services",
+            countLabel: "Active Tickets",
+            // subRoutes: ["/admin/dashboard/ict-tickets", "/admin/dashboard/system-logs"] // If you have sub-pages
         }
     ];
 

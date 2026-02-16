@@ -298,16 +298,18 @@ export default function AdminBidsPage() {
 
             {/* Header Banner */}
 
-            <div className="max-w-5xl mx-auto px-4 mt-10 space-y-4">
+            <div className="flex flex-col gap-6">
                 {/* Main Management Card */}
-                <div
-                    className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-lg border border-border shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-lg border border-border shadow-sm">
                     <div>
-                        <h2 className="text-xl font-serif font-bold text-primary italic">Bids Opportunities
-                            Management</h2>
-                        <p className="text-sm text-muted-foreground font-medium">Post procurement opportunities and
-                            manage bidding documents.</p>
+                        <h2 className="text-xl font-serif font-bold text-primary italic">
+                            Bids Opportunities Management
+                        </h2>
+                        <p className="text-sm text-muted-foreground font-medium">
+                            Post procurement opportunities and manage bidding documents.
+                        </p>
                     </div>
+
                     <button
                         onClick={() => setIsModalOpen(true)}
                         className="flex items-center justify-center gap-2 bg-primary text-white text-xs font-bold uppercase px-4 py-2.5 rounded hover:bg-accent transition-all shadow-md shadow-primary/20"
@@ -316,34 +318,11 @@ export default function AdminBidsPage() {
                     </button>
                 </div>
 
-                {/* Navigation Utility Bar */}
-
-
-                <div className="flex justify-end mt-4">
-                    <Link
-                        href="/admin/dashboard/award-notices"
-                        className="flex items-center gap-3 px-4 py-2 bg-white border border-border rounded-lg shadow-sm hover:border-accent group transition-all"
-                    >
-                        <div className="flex flex-col items-end">
-                        <span
-                            className="text-[9px] font-black text-muted-foreground uppercase tracking-widest leading-none">
-                            Next Section
-                        </span>
-                            <span className="text-[11px] font-bold text-primary uppercase tracking-tighter">
-                            Manage Award Notices
-                        </span>
-                        </div>
-                        <div
-                            className="bg-slate-50 p-1.5 rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
-                            <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform"/>
-                        </div>
-                    </Link>
-                </div>
             </div>
 
 
             {/* List Container */}
-            <div className="max-w-6xl mx-auto px-4 mt-12 pb-20">
+            <div className=" mt-12 pb-20">
                 <div className="flex items-center justify-between mb-6 border-b pb-2">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
                         Recent Postings
@@ -354,8 +333,8 @@ export default function AdminBidsPage() {
                 </div>
 
                 <div className="bg-white border border-border rounded-lg overflow-hidden shadow-sm">
-                    <div className="max-w-6xl mx-auto px-4 mt-8 space-y-4">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="">
+                        <div className="px-4 mt-6 space-y-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                             {/* Search Bar */}
                             <div className="relative flex-1 max-w-md">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -395,7 +374,7 @@ export default function AdminBidsPage() {
                         </div>
 
                         {/* Table Header Counter Info */}
-                        <div className="flex items-center justify-between border-b border-border pb-2">
+                        <div className="px-6 flex items-center justify-between border-b border-border pb-2">
                             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
                                 {filterStatus} Postings
                             </h3>

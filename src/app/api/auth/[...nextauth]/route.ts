@@ -79,8 +79,13 @@ const handler = NextAuth({
             }
         },
 
-        async redirect({ baseUrl }) {
-            return baseUrl;
+        async redirect({ url, baseUrl }) {
+            // This ensures that after login, the user is sent to /admin/dashboard
+            // unless they were specifically trying to go somewhere else.
+            if (url.startsWith("/")) return `${baseUrl}${url}`;
+            else if (new URL(url).origin === baseUrl) return url;
+
+            return `${baseUrl}/admin/dashboard`;
         },
     },
     secret: process.env.NEXTAUTH_SECRET,

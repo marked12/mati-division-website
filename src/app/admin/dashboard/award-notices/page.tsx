@@ -206,7 +206,7 @@ export default function AdminAwardsPage() {
     return (
         <div className="min-h-screen bg-background pb-20">
 
-            <div className="max-w-5xl mx-auto px-4 mt-10">
+            <div className="flex flex-col gap-6">
                 {/* Header Section */}
                 <div
                     className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-lg border border-border shadow-sm">
@@ -233,33 +233,19 @@ export default function AdminAwardsPage() {
                     </button>
                 </div>
 
-                <div className="flex justify-start mt-4">
-                    <Link href="/admin/dashboard/bids-and-awards"
-                          className="flex items-center gap-3 px-4 py-2 bg-white border border-border rounded-lg shadow-sm hover:border-accent group transition-all">
-                        <div
-                            className="bg-slate-50 p-1.5 rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
-                            <ChevronRight size={16}
-                                          className="rotate-180 group-hover:-translate-x-0.5 transition-transform"/>
-                        </div>
-                        <div className="flex flex-col items-start">
-                            <span
-                                className="text-[9px] font-black text-muted-foreground uppercase tracking-widest leading-none">Previous Section</span>
-                            <span className="text-[11px] font-bold text-primary uppercase tracking-tighter">Back to Bidding Ops</span>
-                        </div>
-                    </Link>
-                </div>
+
             </div>
 
                 {/* Table List */}
-            <div className="max-w-6xl mx-auto px-4 mt-12 pb-20">
+            <div className="mt-12 pb-20">
                 {/* 1. Header Section */}
                 <div className="flex items-center justify-between mb-6 border-b pb-2">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
                         Recent Award Notices
                     </h3>
                     <span className="text-[10px] text-slate-400 font-medium">
-            Total Records: {Array.isArray(awards) ? awards.length : 0}
-        </span>
+                        Total Records: {Array.isArray(awards) ? awards.length : 0}
+                    </span>
                 </div>
 
                 {/* 2. Filter & Search Controls (Styled exactly like Bids) */}
@@ -268,7 +254,7 @@ export default function AdminAwardsPage() {
                 {/* 4. Table Container */}
                 <div className="bg-white border border-border rounded-lg overflow-hidden shadow-sm">
                     {/* Search and Filters Header Section */}
-                    <div className="max-w-6xl mx-auto px-4 mt-8 space-y-4">
+                    <div className=" px-4 mt-8 space-y-4">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             {/* Search Bar */}
                             <div className="relative flex-1 max-w-md">
@@ -293,8 +279,8 @@ export default function AdminAwardsPage() {
                                 >
                                     Active
                                     <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[9px] ${filterStatus === 'active' ? 'bg-accent text-white' : 'bg-slate-200 text-slate-500'}`}>
-                        {activeCount}
-                    </span>
+                                    {activeCount}
+                                </span>
                                 </button>
                                 <button
                                     onClick={() => setFilterStatus("archived")}

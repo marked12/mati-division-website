@@ -556,7 +556,7 @@ export default function PersonnelPage() {
             )}
 
             {/* MAIN CONTENT WRAPPER */}
-            <main className="p-6 lg:p-10 space-y-8 max-w-7xl mx-auto">
+            <main className="space-y-8 mx-auto">
 
                 {/* PAGE HEADER */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-6">

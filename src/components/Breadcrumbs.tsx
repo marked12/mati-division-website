@@ -49,7 +49,9 @@ export default function Breadcrumbs() {
                         const isLast = index === segments.length - 1;
                         const currentHref = `/${segments.slice(0, index + 1).join('/')}`;
 
-                        // FIX: Only look for parent label if we are NOT in admin mode
+                        // NEW: Define which segments should not be clickable
+                        const isUnclickable = segment.toLowerCase() === 'admin';
+
                         const parentLabel = !isAdminPath ? routeMapping[segment.toLowerCase()] : null;
 
                         let displayTitle = segment.replace(/-/g, ' ');
@@ -61,7 +63,6 @@ export default function Breadcrumbs() {
                             <li key={currentHref} className="flex items-center space-x-2">
                                 <ChevronRight size={12} className="text-border shrink-0" />
 
-                                {/* This will now only show for public routes like /personnel */}
                                 {parentLabel && (
                                     <>
                                         <span className="opacity-60 whitespace-nowrap">{parentLabel}</span>
@@ -69,10 +70,13 @@ export default function Breadcrumbs() {
                                     </>
                                 )}
 
-                                {isLast ? (
-                                    <span className="text-primary font-black truncate max-w-[150px] sm:max-w-[400px]">
-                                        {displayTitle}
-                                    </span>
+                                {/* UPDATED: Check for isLast OR isUnclickable */}
+                                {isLast || isUnclickable ? (
+                                    <span className={`truncate max-w-[150px] sm:max-w-[400px] ${
+                                        isLast ? "text-primary font-black" : "text-muted-foreground font-medium"
+                                    }`}>
+                    {displayTitle}
+                </span>
                                 ) : (
                                     <Link
                                         href={currentHref}
