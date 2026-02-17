@@ -9,7 +9,7 @@ const PublicEmailRequestPage = () => {
     const [loading, setLoading] = useState(true);
     const [requestType, setRequestType] = useState('Password Reset');
     // Place this at the top of your component
-    const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
+
 
     useEffect(() => {
         const userCookie = Cookies.get('user');
@@ -135,67 +135,7 @@ const PublicEmailRequestPage = () => {
                         />
                     </div>
 
-                    <div className="space-y-3">
-                        {/* Label & Switch Header */}
-                        <div className="flex items-center justify-between px-1">
-                            <label className="text-[10px] font-black text-primary uppercase tracking-widest">
-                                Recovery {contactMethod === 'email' ? 'Email Address' : 'Mobile Number'}
-                            </label>
 
-                            {/* The Toggle Switch */}
-                            <div
-                                style={{ borderRadius: '12px' }}
-                                className="flex p-1 bg-slate-100 border-2 border-slate-200"
-                            >
-                                <button
-                                    type="button"
-                                    onClick={() => setContactMethod('email')}
-                                    style={{ borderRadius: '8px' }}
-                                    className={`px-3 py-1 text-[9px] font-black uppercase transition-all ${
-                                        contactMethod === 'email'
-                                            ? 'bg-white text-primary shadow-sm ring-1 ring-slate-200'
-                                            : 'text-slate-400 hover:text-slate-600'
-                                    }`}
-                                >
-                                    Email
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setContactMethod('phone')}
-                                    style={{ borderRadius: '8px' }}
-                                    className={`px-3 py-1 text-[9px] font-black uppercase transition-all ${
-                                        contactMethod === 'phone'
-                                            ? 'bg-white text-primary shadow-sm ring-1 ring-slate-200'
-                                            : 'text-slate-400 hover:text-slate-600'
-                                    }`}
-                                >
-                                    Phone
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Dynamic Input */}
-                        <div className="relative group">
-                            {/* Keep icon to the left, but maybe make it more subtle since text is centered */}
-                            <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">
-                                {contactMethod === 'email' ? <Mail size={18} /> : <Phone size={18} />}
-                            </div>
-
-                            <input
-                                type={contactMethod === 'email' ? 'email' : 'tel'}
-                                style={{ borderRadius: '20px' }}
-                                placeholder={contactMethod === 'email' ? "example@email.com" : "0912 345 6789"}
-                                /* 1. text-center: Centers the placeholder and typed text perfectly.
-                                   2. px-14: Equal padding on both sides so text doesn't hit the icon or edges.
-                                */
-                                className="w-full px-14 py-4 bg-white border-2 pl-9 border-slate-200 text-sm font-bold text-primary focus:ring-4 focus:ring-primary/5 focus:border-primary outline-none transition-all"
-                            />
-                        </div>
-
-                        <p className="text-[10px] font-bold text-slate-400 italic px-1">
-                            * Used to receive your temporary credentials securely.
-                        </p>
-                    </div>
 
                     <div className="space-y-2">
                         <label className="text-[10px] font-black text-primary uppercase tracking-widest ml-1">Reason for Request</label>

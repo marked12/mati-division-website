@@ -83,15 +83,16 @@ export default function LoginPage() {
                 Cookies.set('user', JSON.stringify(data.user), { expires: 3 });
 
                 // 2. Alert and Redirect
-                toast.success(`Welcome back, ${data.user.firstName}!`, {
-                    icon: <CheckCircle2 className="text-green-500" size={20} />,
-                });
+                // toast.success(`Welcome back, ${data.user.firstName}!`, {
+                //     icon: <CheckCircle2 className="text-green-500" size={20} />,
+                // });
 
                 // 3. Use window.location.href for the initial login redirect
                 // to force a clean server-side reload of the Header
-                setTimeout(() => {
-                    window.location.href = "/admin/dashboard";
-                }, 1500);
+                window.location.href = "/admin/dashboard";
+                // setTimeout(() => {
+                //     window.location.href = "/admin/dashboard";
+                // }, 1500);
             } else {
                 // Error Toast
                 toast.error(data.message || "Invalid credentials", {

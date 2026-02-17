@@ -2,10 +2,12 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import {ChevronDown, Menu, X, UserCircle, LogOut, Settings, ChevronRight} from 'lucide-react';
+import {ChevronDown, Menu, X, UserCircle, LogOut, Settings, ChevronRight, Bell, RefreshCcw, Clock} from 'lucide-react';
 import Cookies from "js-cookie";
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import NotificationBell from "@/src/components/NotificationBell";
+import NotifBellMobile from "@/src/components/NotifBellMobile";
 
 interface SubChildItem {
     name: string;
@@ -106,6 +108,7 @@ export default function Header() {
 
     const pathname = usePathname();
     const userMenuRef = useRef<HTMLDivElement>(null);
+    const [isNotifOpen, setIsNotifOpen] = useState(false);
 
     // Sync Auth and handle click-outside
     useEffect(() => {
@@ -250,48 +253,64 @@ export default function Header() {
                     {/* RIGHT ACTIONS */}
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0 justify-end min-w-[100px]">
                         {!isMounted ? (
-                            <div className="w-[100px] h-10 bg-secondary/30 animate-pulse rounded-xl"/>
+                            <div className="w-[100px] h-10 bg-secondary/30 animate-pulse rounded-xl" />
                         ) : (
                             <>
                                 {isLoggedIn ? (
-                                    <div className="relative" ref={userMenuRef}>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setIsUserMenuOpen(!isUserMenuOpen);
-                                                setIsSidebarOpen(false);
-                                            }}
-                                            className="flex items-center gap-2 p-1.5 rounded-full hover:bg-secondary transition-all relative z-10"
-                                        >
-                                            <div className="hidden sm:flex flex-col items-end mr-1">
-                                                <span className="text-[11px] font-bold text-primary leading-none">{userName || "User"}</span>
-                                                <span className="text-[9px] text-muted-foreground capitalize">{userRole ? userRole.toLowerCase() : "Guest"}</span>
+                                    <div className="relative flex items-center gap-2 sm:gap-3">
+                                        {/* --- NOTIFICATION GROUP --- */}
+                                        <div className="relative ">
+                                            {/* This will show ONLY on screens 1024px and up */}
+                                            <div className="hidden lg:flex">
+                                                <NotificationBell />
                                             </div>
-                                            <div className="w-9 h-9 bg-accent/20 rounded-full flex items-center justify-center text-primary border border-accent/30 shadow-sm">
-                                                <UserCircle size={22}/>
-                                            </div>
-                                        </button>
 
-                                        {isUserMenuOpen && (
-                                            <div className="absolute right-0 top-full w-48 animate-fade-in z-[60] pt-2">
-                                                <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
-                                                    <div className="p-3 border-b border-border bg-secondary/30">
-                                                        <p className="text-xs font-bold text-primary">Account Manager</p>
-                                                    </div>
-                                                    <div className="p-1">
-                                                        <button className="w-full flex items-center gap-3 px-3 py-2 text-xs text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">
-                                                            <Settings size={14}/> Settings
-                                                        </button>
-                                                        <button
-                                                            onClick={handleLogout}
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                                                        >
-                                                            <LogOut size={14}/> Logout
-                                                        </button>
+                                            {/* This will show ONLY on screens smaller than 1024px */}
+                                            <div className=" lg:hidden">
+                                                <NotifBellMobile />
+                                            </div>
+                                        </div>
+                                       {/* --- USER MENU GROUP --- */}
+                                        <div className="relative" ref={userMenuRef}>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setIsUserMenuOpen(!isUserMenuOpen);
+                                                    setIsNotifOpen(false); // Close notifs if open
+                                                    setIsSidebarOpen(false);
+                                                }}
+                                                className="flex items-center gap-2 p-1.5 rounded-full hover:bg-secondary transition-all relative z-10"
+                                            >
+                                                <div className="hidden sm:flex flex-col items-end mr-1">
+                                                    <span className="text-[11px] font-bold text-primary leading-none">{userName || "User"}</span>
+                                                    <span className="text-[9px] text-muted-foreground capitalize">{userRole ? userRole.toLowerCase() : "Guest"}</span>
+                                                </div>
+                                                <div className="w-9 h-9 bg-accent/20 rounded-full flex items-center justify-center text-primary border border-accent/30 shadow-sm">
+                                                    <UserCircle size={22}/>
+                                                </div>
+                                            </button>
+
+                                            {isUserMenuOpen && (
+                                                <div className="absolute right-0 top-full w-48 animate-fade-in z-[60] pt-2">
+                                                    <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+                                                        <div className="p-3 border-b border-border bg-secondary/30">
+                                                            <p className="text-xs font-bold text-primary italic uppercase tracking-widest">Account Manager</p>
+                                                        </div>
+                                                        <div className="p-1">
+                                                            <button className="w-full flex items-center gap-3 px-3 py-2 text-xs text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors font-bold">
+                                                                <Settings size={14}/> Settings
+                                                            </button>
+                                                            <button
+                                                                onClick={handleLogout}
+                                                                className="w-full flex items-center gap-3 px-3 py-2 text-xs text-red-500 hover:bg-red-50 rounded-lg transition-colors font-bold"
+                                                            >
+                                                                <LogOut size={14}/> Logout
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
                                 ) : (
                                     <Link href="/login" className="relative flex items-center gap-2.5 px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.15em] bg-primary text-primary-foreground rounded-xl border border-primary/20 shadow-lg transition-all hover:bg-primary/90 active:scale-95">
@@ -302,12 +321,14 @@ export default function Header() {
                             </>
                         )}
 
+                        {/* Mobile Toggle */}
                         <button
                             className="lg:hidden p-2 text-primary hover:bg-secondary rounded-lg transition-colors"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsSidebarOpen(!isSidebarOpen);
                                 setIsUserMenuOpen(false);
+                                setIsNotifOpen(false);
                             }}
                         >
                             {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
@@ -361,6 +382,7 @@ export default function Header() {
                     ))}
                 </div>
             )}
+
         </header>
     );
 }

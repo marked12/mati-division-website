@@ -14,7 +14,7 @@ const MASTER_PRIVILEGES = [
     { id: 'procurement', label: 'Manage Bidding & Award Notices' },
     { id: 'gad_manage', label: 'Gender & Development Management' },
     { id: 'ict_sys', label: 'ICT System & Network Maintenance' },
-    { id: 'write_news', label: 'Publish Articles & News Stories' },
+    { id: 'write_news', label: 'Publish Articles & Announcements' },
     { id: 'supply_inv', label: 'Supply Inventory & Equipment' },
     { id: 'admin_full', label: 'Account Approval & Role Modification' },
 ];
